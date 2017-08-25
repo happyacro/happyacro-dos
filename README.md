@@ -24,6 +24,8 @@ My goal is to emulate running this program on old 8086 hardware. Dosbox has a go
 
 https://www.dosbox.com/wiki/4.77_MHz
 
+# License
+
 All scripts are licensed with the [Apache license](http://en.wikipedia.org/wiki/Apache_license), which is a great license because, essentially it:
 
 * a) covers liability - my code should work, but I'm not liable if you do something stupid with it
