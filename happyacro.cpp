@@ -9,7 +9,7 @@ void generateAcronyms(string &acronym, time_t &startTime, int index, string &acr
 
 int main(int argc, char * argv[]) {
 	if (argc != 4) {
-		cout << "USAGE: happyacro <acronymn> <word file> <reporting interval>" << endl;
+		cout << "USAGE: happyacro <acronym> <word file> <reporting interval>" << endl;
 		return 1;
 	}
 
