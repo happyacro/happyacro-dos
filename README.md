@@ -6,23 +6,67 @@ This program creates motivational acronyms for an acronym you specify.
 
 It's not going to print out every generated acronym. It's basically a funny / shitty benchmark joke for a [book](http://www.happyacro.com).
 
-# Building / Running
+This program's purpose is to run on [DOSBox](https://www.dosbox.com/) while emulating old PCs [XT/286/386/486 etc).
 
-Build the program on an a box with g++ installed with the `build.sh` or `build.bat` file. Then run the `happyacro` binary. 
+
+# Building
+
+If you want to build the program on modern hardware. Install gcc on your system and run `gcc happyacro.cpp -o happyacro` to build it.
+
+But, I was trying to run this thing on DOSBox, which is an emulator for old versions of MS-DOS. That required a number of hoops to jump through for building it:
+
+# Building The Masochistic Version For DOSBox
+
+1. I tried to compile the c++ version with djgpp, turbo c++ (various versions), microsoft c/c++ (various versions), bordland c++ on dosbox, watcom, and others. Don't bother.
+2. Learned that c++ standard library wasn't standardized until after the products mentioned above existed.
+3. Didn't want to write some weird compiler-specific c++ variant, so decided to write in C. 
+4. Fired up a windows 98 virtual box image [Instructions here](https://forums.virtualbox.org/viewtopic.php?f=2&t=59559).
+   - pro tip: [winworldpc.com](https://winworldpc.com/) and [oldversion.com](http://www.oldversion.com/) are your friends for finding win98 images and old software. 
+   - pro tip: OSX use [this](https://superuser.com/a/85991) to make ISO images with installers, then mount the ISO as a cd-rom on VirtualBox to copy the files to Win98. 
+   - pro tip: Or, [start an http server](http://lifehacker.com/start-a-simple-web-server-from-any-directory-on-your-ma-496425450) on your box and hit that from within win98.
+   - pro tip: Win98's ssl encryption types are horrendously out of date, so you won't be able to hit almost any websites from within the image. 
+   - pro tip: To ftp over from OSX, first install [FileZilla 2.2.20](http://www.oldversion.com/windows/filezilla-2-2-20) (other versions won't work), then [enable FTP on OSX](https://gaborhargitai.hu/enable-built-in-ftp-server-in-mac-os-x-yosemite-el-capitan-sierra/).
+5. Installed [Open Watcom 1.9](http://www.openwatcom.org) on the Win98 image.
+6. Created an Open Watcom project with a target environment of "Dos - 32-bit" and Image Type "Causeway Executable [.exe]".
+7. Wrote the c version of the program, compiling and checking if it'd work in the DOSBox image along the way. 
+8. Built the c version, ftped it over to my OSX box in my dosbox directory, and ran it in DOSBox. 
+
+# Running
 
 Usage is as follows: 
 
-	USAGE: happyacro <acronym> <word file> <reporting interval>
+	USAGE: happyacro <acronym>  <reporting interval> <word file>
 
 - the acronym is the motivational acronym you want to generate from such as TEAM
-- the word file is a file containing words to use, one word per line
 - the reporting interval controls how often output is generated
+- the word file is a file containing words to use, one word per line
 
-# Running on an (emulated) old box
+# Running on an [emulated) old box
 
-My goal is to emulate running this program on old 8086 hardware. Dosbox has a good-enough emulation tuning mode to accomplish this:
+Instructions for tuning dosbox emulation to emulate an 8086 [or 80386) accurately: 
 
 https://www.dosbox.com/wiki/4.77_MHz
+
+Check [here](https://en.wikipedia.org/wiki/List_of_Intel_microprocessors) to see the mhz of various old computers.
+
+NOTE: Keep in mind that x86 processors weren't 32 bit until the 386, so we're technically cheating when we run a the 32-bit version of the program on DOSBox at a speed below 386 to emulate older hardware.
+
+# Fun Facts
+
+I received the following results on DOSBox running this program: 
+
+- Emulated Machine: Pentium 1 @ 100mhz
+  - Output: 7,000 acronyms per second.
+  - Environment: DOSBox running on MacBook Pro Late 2014 15" model w/ 6000 cycle DOSBOX setting.
+  - mips.com estimated frequency: 25 x XT clock frequency (4.7mhz) = ~100mhz
+
+Run configuration:
+
+- DOSBox version was 0.74.
+- I used mips.com as directed [here] and played with the configured cycle count to get DOSBox operating close to the desired clock speed for each run.
+- All runs were done with the word "team" as the acronym
+- Word file is from [here](https://www.dosbox.com/wiki/4.77_MHz).
+- I ran with print frequency of 100,000.
 
 # License
 
@@ -36,7 +80,7 @@ Other great licensing options for your own code: [BSD License](https://en.wikipe
 
 Here's the license:
 
-Copyright (c) 2017, Coder Cowboy, LLC. All rights reserved.
+Copyright [c) 2017, Coder Cowboy, LLC. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
@@ -51,10 +95,10 @@ ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
 WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
 DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
 ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+[INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
 LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
 ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+[INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   
 The views and conclusions contained in the software and documentation are those
