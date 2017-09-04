@@ -41,7 +41,7 @@ Usage is as follows:
 - the reporting interval controls how often output is generated
 - the word file is a file containing words to use, one word per line
 
-# Running on an [emulated) old box
+# Running on an [emulated] old box
 
 Instructions for tuning dosbox emulation to emulate an 8086 [or 80386) accurately: 
 
@@ -55,18 +55,23 @@ NOTE: Keep in mind that x86 processors weren't 32 bit until the 386, so we're te
 
 I received the following results on DOSBox running this program: 
 
-- Emulated Machine: Pentium 1 @ 100mhz
-  - Output: 7,000 acronyms per second.
-  - Environment: DOSBox running on MacBook Pro Late 2014 15" model w/ 6000 cycle DOSBOX setting.
-  - mips.com estimated frequency: 25 x XT clock frequency (4.7mhz) = ~100mhz
+- Emulated Machine: 1979 8086 @ 5MHz (DOSBox Cycle Setting: 250 cycles). Output: 315 acronyms per second.
+- Emulated Machine: 1982 80286 @ 12MHz (DOSBox Cycle Setting: 1250 cycles). Output: 1,580 acronyms per second.
+- Emulated Machine: 1985 80386 @ 33MHz (DOSBox Cycle Setting: 3250 cycles). Output: 4,100 acronyms per second.
+- Emulated Machine: 1989 80486 @ 66MHz (DOSBox Cycle Setting: 7250 cycles). Output: 9,100 acronyms per second.
+- Emulated Machine: 1992 80486DX2 @ 100MHz (DOSBox Cycle Setting: 12750 cycles). Output: 15,500 acronyms per second.
+- Emulated Machine: 1997 Pentium 1 @ 166MHz (DOSBox Cycle Setting: 20500 cycles). Output: 24,800 acronyms per second.  
+- Non-emulated Machine: 2014 MacBookPro11,2 Intel(R) Core(TM) i7-4980HQ CPU @ 2.80GHz (single threaded). Output: 2,000,000 acronyms per second.
 
 Run configuration:
 
-- DOSBox version was 0.74.
-- I used mips.com as directed [here] and played with the configured cycle count to get DOSBox operating close to the desired clock speed for each run.
+- Environment: DOSBox 0.74 running on MacBook Pro Late 2014 15" model.
+- I used the [TOPBENCH](https://dosbenchmark.wordpress.com/) instead of MIPS.COM program as directed [here](ttps://www.dosbox.com/wiki/4.77_MHz) and played with the configured cycle count to get DOSBox operating close to the desired clock speed for each run. MIPS.COM's math gets funny after the multiplier goes over 25x. 
 - All runs were done with the word "team" as the acronym
-- Word file is from [here](https://www.dosbox.com/wiki/4.77_MHz).
+- Word file is from [here](https://github.com/dwyl/english-words). It has ~470K words in a 4MB text file.
 - I ran with print frequency of 100,000.
+- Executable for emulated machines was compiled with the open watcom 1.9 compiler mentioned earlier in this document.
+- Executable for non-emulated machine was compiled with `g++ happyacro.cpp` (gcc didn't like undefined _max fn, whatever).
 
 # License
 
