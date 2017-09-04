@@ -53,7 +53,7 @@ NOTE: Keep in mind that x86 processors weren't 32 bit until the 386, so we're te
 
 # Fun Facts
 
-I received the following results on DOSBox running this program: 
+I received the following results running this program: 
 
 - Emulated Machine: 1979 8086 @ 5MHz (DOSBox Cycle Setting: 250 cycles). Output: 315 acronyms per second.
 - Emulated Machine: 1982 80286 @ 12MHz (DOSBox Cycle Setting: 1250 cycles). Output: 1,580 acronyms per second.
@@ -63,14 +63,20 @@ I received the following results on DOSBox running this program:
 - Emulated Machine: 1997 Pentium 1 @ 166MHz (DOSBox Cycle Setting: 20500 cycles). Output: 24,800 acronyms per second.  
 - Non-emulated Machine: 2014 MacBookPro11,2 Intel(R) Core(TM) i7-4980HQ CPU @ 2.80GHz (single threaded). Output: 2,000,000 acronyms per second.
 
-Run configuration:
+*Run configuration:*
 
-- Environment: DOSBox 0.74 running on MacBook Pro Late 2014 15" model.
-- I used the [TOPBENCH](https://dosbenchmark.wordpress.com/) instead of MIPS.COM program as directed [here](ttps://www.dosbox.com/wiki/4.77_MHz) and played with the configured cycle count to get DOSBox operating close to the desired clock speed for each run. MIPS.COM's math gets funny after the multiplier goes over 25x. 
 - All runs were done with the word "team" as the acronym
 - Word file is from [here](https://github.com/dwyl/english-words). It has ~470K words in a 4MB text file.
 - I ran with print frequency of 100,000.
+
+*Emulated Environment Notes*
+
+- Environment: DOSBox 0.74 running on MacBook Pro Late 2014 15" model.
+- I used the [TOPBENCH](https://dosbenchmark.wordpress.com/) instead of MIPS.COM program as directed [here](ttps://www.dosbox.com/wiki/4.77_MHz) and played with the configured cycle count to get DOSBox operating close to the desired clock speed for each run. MIPS.COM's math gets funny after the multiplier goes over 25x. 
 - Executable for emulated machines was compiled with the open watcom 1.9 compiler mentioned earlier in this document.
+
+*Non-Emulated Enviornment Notes*
+
 - Executable for non-emulated machine was compiled with `g++ happyacro.cpp` (gcc didn't like undefined _max fn, whatever).
 
 # License
