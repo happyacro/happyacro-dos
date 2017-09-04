@@ -77,7 +77,7 @@ I received the following results running this program:
 
 *Non-Emulated Enviornment Notes*
 
-- Executable for non-emulated machine was compiled with `g++ happyacro.cpp` (gcc didn't like undefined _max fn, whatever).
+- Executable for non-emulated machine was compiled with `g++ happyacro.cpp` (gcc didn't like undefined _max fn in the .c version, so I was lazy and compiled .cpp, whatever).
 
 # License
 
