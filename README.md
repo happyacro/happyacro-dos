@@ -12,9 +12,9 @@ This program's purpose is to run on [DOSBox](https://www.dosbox.com/) while emul
 
 There are two pre-built versions of happyacro provided with the project in the [bin](bin) folder: 
 
-1. [happyacro.exe](happyacro.exe) is the DOS executable built from the C code in this project within a Win98 VM (more on that hell below in the **Building The Masochistic Version For DOSBox** section of this document. 
+1. [happyacro.exe](bin/happyacro.exe) is the DOS executable built from the C code in this project within a Win98 VM (more on that hell below in the **Building The Masochistic Version For DOSBox** section of this document. 
 
-2. [happyacromac](happyacromac) is an executable for MacOs built from the C++ code in this project on MacOs High Sierra in 2018. 
+2. [happyacromac](bin/happyacromac) is an executable for MacOs built from the C++ code in this project on MacOs High Sierra in 2018. 
 
 Usage for both versions is as follows: 
 
@@ -24,7 +24,7 @@ Usage for both versions is as follows:
 - the reporting interval controls how often output is generated
 - the word file is a file containing words to use, one word per line 
 
-I've added an example word file named [words.txt]() to use with the program to this repo. That file comes from the [english-words github repo](https://github.com/dwyl/english-words), which in turn extracted the words from [this excel file from infochimps](http://www.infochimps.com/datasets/word-list-350000-simple-english-words-excel-readable). Infochimps owns the copyright to the words file. 
+I've added an example word file named [words.txt](bin/words.txt) to use with the program to this repo. That file comes from the [english-words github repo](https://github.com/dwyl/english-words), which in turn extracted the words from [this excel file from infochimps](http://www.infochimps.com/datasets/word-list-350000-simple-english-words-excel-readable). Infochimps owns the copyright to the words file. 
 
 # Running on an [emulated] old box
 
@@ -38,7 +38,7 @@ NOTE: Keep in mind that x86 processors weren't 32 bit until the 386, so we're te
 
 # Building For Modern Systems
 
-If you want to build the program on modern hardware. Install gcc on your system and run `gcc happyacro.cpp -o happyacro` to build it.
+If you want to build the program on modern hardware. Install gcc on your system and run `g++ happyacro.cpp -o happyacro` to build it.
 
 # Building The Masochistic Version For DOSBox
 
@@ -84,7 +84,7 @@ I received the following results running this program:
 
 # License
 
-The words.txt file in this repo comes from the [english-words github repo](https://github.com/dwyl/english-words), which in turn extracted the words from [this excel file from infochimps](http://www.infochimps.com/datasets/word-list-350000-simple-english-words-excel-readable). Infochimps owns the copyright to the that file. 
+The [words.txt](bin/words.txt) file in this repo comes from the [english-words github repo](https://github.com/dwyl/english-words), which in turn extracted the words from [this excel file from infochimps](http://www.infochimps.com/datasets/word-list-350000-simple-english-words-excel-readable). Infochimps owns the copyright to the that file. 
 
 All remaining content is licensed with the [Apache license](http://en.wikipedia.org/wiki/Apache_license), which is a great license because it:
 
