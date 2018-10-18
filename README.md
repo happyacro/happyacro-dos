@@ -8,29 +8,6 @@ It's not going to print out every generated acronym. It's basically a funny / sh
 
 This program's purpose is to run on [DOSBox](https://www.dosbox.com/) while emulating old PCs [XT/286/386/486 etc).
 
-
-# Building
-
-If you want to build the program on modern hardware. Install gcc on your system and run `gcc happyacro.cpp -o happyacro` to build it.
-
-But, I was trying to run this thing on DOSBox, which is an emulator for old versions of MS-DOS. That required a number of hoops to jump through for building it:
-
-# Building The Masochistic Version For DOSBox
-
-1. I tried to compile the c++ version with djgpp, turbo c++ (various versions), microsoft c/c++ (various versions), bordland c++ on dosbox, watcom, and others. Don't bother.
-2. Learned that c++ standard library wasn't standardized until after the products mentioned above existed.
-3. Didn't want to write some weird compiler-specific c++ variant, so decided to write in C. 
-4. Fired up a windows 98 virtual box image [Instructions here](https://forums.virtualbox.org/viewtopic.php?f=2&t=59559).
-   - pro tip: [winworldpc.com](https://winworldpc.com/) and [oldversion.com](http://www.oldversion.com/) are your friends for finding win98 images and old software. 
-   - pro tip: OSX use [this](https://superuser.com/a/85991) to make ISO images with installers, then mount the ISO as a cd-rom on VirtualBox to copy the files to Win98. 
-   - pro tip: Or, [start an http server](http://lifehacker.com/start-a-simple-web-server-from-any-directory-on-your-ma-496425450) on your box and hit that from within win98.
-   - pro tip: Win98's ssl encryption types are horrendously out of date, so you won't be able to hit almost any websites from within the image. 
-   - pro tip: To ftp over from OSX, first install [FileZilla 2.2.20](http://www.oldversion.com/windows/filezilla-2-2-20) (other versions won't work), then [enable FTP on OSX](https://gaborhargitai.hu/enable-built-in-ftp-server-in-mac-os-x-yosemite-el-capitan-sierra/).
-5. Installed [Open Watcom 1.9](http://www.openwatcom.org) on the Win98 image.
-6. Created an Open Watcom project with a target environment of "Dos - 32-bit" and Image Type "Causeway Executable [.exe]".
-7. Wrote the c version of the program, compiling and checking if it'd work in the DOSBox image along the way. 
-8. Built the c version, ftped it over to my OSX box in my dosbox directory, and ran it in DOSBox. 
-
 # Running
 
 Usage is as follows: 
@@ -49,7 +26,86 @@ https://www.dosbox.com/wiki/4.77_MHz
 
 Check [here](https://en.wikipedia.org/wiki/List_of_Intel_microprocessors) to see the mhz of various old computers.
 
-NOTE: Keep in mind that x86 processors weren't 32 bit until the 386, so we're technically cheating when we run a the 32-bit version of the program on DOSBox at a speed below 386 to emulate older hardware.
+NOTE: Keep in mind that x86 processors weren't 32 bit until the 386, so we're technically cheating when we run the 32-bit version of the program on DOSBox at a speed below 386 speeds to emulate older hardware.
+
+# Building For Modern Systems
+
+If you want to build the program on modern hardware. Install gcc on your system and run `gcc happyacro.cpp -o happyacro` to build it.
+
+# Building The Masochistic Version For DOSBox
+
+I was trying to run this thing on DOSBox, which is an emulator for old versions of MS-DOS. That required a number of hoops to jump through for building it:
+
+1. I tried to compile the c++ version with djgpp, turbo c++ (various versions), microsoft c/c++ (various versions), borland c++ on dosbox, watcom, and others. Don't bother.
+2. Learned that c++ standard library wasn't standardized until after the products mentioned above existed.
+3. Didn't want to write some weird compiler-specific c++ variant, so decided to write in C. 
+4. Fired up a windows 98 virtual box image [Instructions here](https://forums.virtualbox.org/viewtopic.php?f=2&t=59559).
+  - pro tip: [winworldpc.com](https://winworldpc.com/) and [oldversion.com](http://www.oldversion.com/) are your friends for finding win98 images and old software. 
+  - pro tip: Win98's ssl encryption types are horrendously out of date, so you won't be able to hit almost any websites from within the image.   
+  - pro tip: To ftp over from OSX, , then [enable FTP on OSX](), if you're on High Sierra or newer, you'll need to install the [FTP Server app from the app store]() :/.
+5. Spent a long time trying to figure out how to get files to / from the VirtualBox instance on OSX, since VirtualBox doesn't provide file sharing drivers for Win98. 
+ 
+  **File sharing from host to guest option #1:** Create a cd-rom ISO.
+
+  Use this terminal command [(source)](https://superuser.com/a/85991) to make ISO images with installers, then mount the ISO as a cd-rom on VirtualBox via the 'Devices' Menu at the top of the screen to copy the files to Win98: 
+
+    hdiutil makehybrid -iso -joliet -o <your file name>.iso <folder> 
+
+  **File sharing from host to guest option #2:** [Run a http server](http://lifehacker.com/start-a-simple-web-server-from-any-directory-on-your-ma-496425450). 
+
+  The easiest way to do this if you have python installed is to run this command in the folder you want to be the http server:
+
+    python -m SimpleHTTPServer 8080
+
+  The above example will host a [web server](https://en.wikipedia.org/wiki/Web_server) on your machine on port 8080. If you start the webserver in the [sample](https://github.com/codercowboy/freedosbootdisks/tree/master/sample) folder of this project, the url to fetch in the VM will be:
+
+     http://10.0.2.2:8080/
+ 
+  Here, we're assuming the host ip from the guest vm is 10.0.2.2, which should be the [default host ip from within a VirtualBox VM](https://superuser.com/questions/310697/connect-to-the-host-machine-from-a-virtualbox-guest-os). If 10.0.2.2 doesn't work, you can try 'localhost' or '127.0.0.1', but those usually won't work either, you'll probably need to [fetch your IP address](http://osxdaily.com/2010/11/21/find-ip-address-mac/). 
+
+  Other popular [web server](https://en.wikipedia.org/wiki/Web_server) options to consider are [Apache](https://httpd.apache.org/), [NGINX](https://www.nginx.com/), a [LAMP](https://en.wikipedia.org/wiki/LAMP_(software_bundle)) stack (which includes apache as the webserver portion of the stack), [Tomcat](http://tomcat.apache.org/), or [Geronimo](http://geronimo.apache.org/). More webserver options are listed [here](https://en.wikipedia.org/wiki/Comparison_of_web_server_software). 
+
+  **File Sharing Bidirectionally Option #3:** FTP server. 
+
+   * First, install [FileZilla 2.2.20](http://www.oldversion.com/windows/filezilla-2-2-20) (other versions won't work) on the Win98 VM. To get FileZilla onto your VM, you'll need to use option #1 (Create a cdrom iso file), or option #2 (host a http server) above to host the file on your host computer and fetch it into the VM.
+
+   * Note that Filezilla's SSH ciphers are terribly out of date, so it won't be able to connect to your Host OS's modern SSH instance. Because of this, you'll need to start an FTP server. 
+
+   * If you're running a version of MacOS older than High Sierra, use these [instructions to enable a simple ftp server on MacOS before High Sierra](https://gaborhargitai.hu/enable-built-in-ftp-server-in-mac-os-x-yosemite-el-capitan-sierra/).
+
+   * If you're on a version of MacOS that's High Sierra or later, Apple removed the builtin ftp server with High Sierra, so now you need to [install the $4 FTP Server app from the Mac App Store for a simple FTP server on High Sierra and later](https://itunes.apple.com/us/app/ftp-server/id987045856?mt=12).
+
+   * Instructions to setup the FTP Server app quickly:
+
+      * Open the app, and on the "general" tab select a folder for server root, for me I made this ~/Desktop/ftp. 
+      
+      * Next, on the "accounts" tab of the ftp software add a user with read/write perms, I just put "anon/anon".
+      
+      * Then, back on the "general" tab, hit the 'play' button on the bottom of the panel to start the server.
+
+   * To connect to the FTP from the guest vm you'll need to use your actual IP address rather than the 10.0.2.2 or localhost or 127.0.0.1 option. 
+
+  **File Sharing Bidirectionally Option #2:** SCP, SFTP with PuTTY. 
+
+  This method is less user-friendly than GUI based options specified earlier. But if you're familiar with using SSH, SCP, or SFTP, you can use the tools provided by PuTTY. In particular, the PFTP program that comes with PuTTY has a nice interactive DOS window FTP experience. 
+
+  You'll need a [Win9x compatible version of PuTTY](http://www.oldversion.com/windows/putty-0-62) such as [PuTTY 0.62 from oldversion.com](http://www.oldversion.com/windows/putty-0-62). Download that, then get it on your VM using the cdrom ISO method or the web server file sharing options listed above, and install PuTTY on the VM. 
+
+  Some quick tips for working with PuTTY's psftp SFTP client:
+
+    * Type 'help' for a list of commands.
+    * Open the SFTP connection to your host using **open 10.0.2.2** (or your machine's IP if that IP doesnt work)
+    * Login with your OSX user credentials like you would on a normal SSH/SCP session.
+    * Work with local directories using **lcd** and **lpwd**
+    * Work with remote directories using **cd** and **pwd**
+    * List remote files with **ls** or **dir**
+    * Upload/Download files with **get** **mget** **put** **mput**      
+
+6. Installed [Open Watcom 1.9](http://www.openwatcom.org) on the Win98 image.
+7. Created an Open Watcom project with a target environment of "Dos - 32-bit" and Image Type "Causeway Executable [.exe]".
+8. Wrote the c version of the program, compiling and checking if it'd work in the DOSBox image along the way. 
+9. Built the c version, ftped it over to my OSX box in my dosbox directory, and ran it in DOSBox. 
+
 
 # Fun Facts
 
