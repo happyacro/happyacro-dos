@@ -22,7 +22,7 @@ There are two pre-built versions of happyacro provided with the project in the [
 
 Usage for both versions is as follows: 
 
-	USAGE: happyacro <acronym>  <reporting interval> <word file>
+	USAGE: happyacro <acronym> <reporting interval> <word file>
 
 - the acronym is the motivational acronym you want to generate from such as TEAM
 - the reporting interval controls how often output is generated
