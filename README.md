@@ -1,3 +1,7 @@
+#
+
+![](screenshot.png)
+
 # happyacro-dos
 
 A c++ motivational acronym generator.
