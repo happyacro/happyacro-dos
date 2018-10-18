@@ -10,13 +10,21 @@ This program's purpose is to run on [DOSBox](https://www.dosbox.com/) while emul
 
 # Running
 
-Usage is as follows: 
+There are two pre-built versions of happyacro provided with the project in the [bin](bin) folder: 
+
+1. [happyacro.exe](happyacro.exe) is the DOS executable built from the C code in this project within a Win98 VM (more on that hell below in the **Building The Masochistic Version For DOSBox** section of this document. 
+
+2. [happyacromac](happyacromac) is an executable for MacOs built from the C++ code in this project on MacOs High Sierra in 2018. 
+
+Usage for both versions is as follows: 
 
 	USAGE: happyacro <acronym>  <reporting interval> <word file>
 
 - the acronym is the motivational acronym you want to generate from such as TEAM
 - the reporting interval controls how often output is generated
-- the word file is a file containing words to use, one word per line
+- the word file is a file containing words to use, one word per line 
+
+I've added an example word file named [words.txt]() to use with the program to this repo. That file comes from the [english-words github repo](https://github.com/dwyl/english-words), which in turn extracted the words from [this excel file from infochimps](http://www.infochimps.com/datasets/word-list-350000-simple-english-words-excel-readable). Infochimps owns the copyright to the words file. 
 
 # Running on an [emulated] old box
 
@@ -39,68 +47,7 @@ I was trying to run this thing on DOSBox, which is an emulator for old versions 
 1. I tried to compile the c++ version with djgpp, turbo c++ (various versions), microsoft c/c++ (various versions), borland c++ on dosbox, watcom, and others. Don't bother.
 2. Learned that c++ standard library wasn't standardized until after the products mentioned above existed.
 3. Didn't want to write some weird compiler-specific c++ variant, so decided to write in C. 
-4. Fired up a windows 98 virtual box image [Instructions here](https://forums.virtualbox.org/viewtopic.php?f=2&t=59559).
-  - pro tip: [winworldpc.com](https://winworldpc.com/) and [oldversion.com](http://www.oldversion.com/) are your friends for finding win98 images and old software. 
-  - pro tip: Win98's ssl encryption types are horrendously out of date, so you won't be able to hit almost any websites from within the image.   
-  - pro tip: To ftp over from OSX, , then [enable FTP on OSX](), if you're on High Sierra or newer, you'll need to install the [FTP Server app from the app store]() :/.
-5. Spent a long time trying to figure out how to get files to / from the VirtualBox instance on OSX, since VirtualBox doesn't provide file sharing drivers for Win98. 
- 
-  **File sharing from host to guest option #1:** Create a cd-rom ISO.
-
-  Use this terminal command [(source)](https://superuser.com/a/85991) to make ISO images with installers, then mount the ISO as a cd-rom on VirtualBox via the 'Devices' Menu at the top of the screen to copy the files to Win98: 
-
-    hdiutil makehybrid -iso -joliet -o <your file name>.iso <folder> 
-
-  **File sharing from host to guest option #2:** [Run a http server](http://lifehacker.com/start-a-simple-web-server-from-any-directory-on-your-ma-496425450). 
-
-  The easiest way to do this if you have python installed is to run this command in the folder you want to be the http server:
-
-    python -m SimpleHTTPServer 8080
-
-  The above example will host a [web server](https://en.wikipedia.org/wiki/Web_server) on your machine on port 8080. If you start the webserver in the [sample](https://github.com/codercowboy/freedosbootdisks/tree/master/sample) folder of this project, the url to fetch in the VM will be:
-
-     http://10.0.2.2:8080/
- 
-  Here, we're assuming the host ip from the guest vm is 10.0.2.2, which should be the [default host ip from within a VirtualBox VM](https://superuser.com/questions/310697/connect-to-the-host-machine-from-a-virtualbox-guest-os). If 10.0.2.2 doesn't work, you can try 'localhost' or '127.0.0.1', but those usually won't work either, you'll probably need to [fetch your IP address](http://osxdaily.com/2010/11/21/find-ip-address-mac/). 
-
-  Other popular [web server](https://en.wikipedia.org/wiki/Web_server) options to consider are [Apache](https://httpd.apache.org/), [NGINX](https://www.nginx.com/), a [LAMP](https://en.wikipedia.org/wiki/LAMP_(software_bundle)) stack (which includes apache as the webserver portion of the stack), [Tomcat](http://tomcat.apache.org/), or [Geronimo](http://geronimo.apache.org/). More webserver options are listed [here](https://en.wikipedia.org/wiki/Comparison_of_web_server_software). 
-
-  **File Sharing Bidirectionally Option #3:** FTP server. 
-
-   * First, install [FileZilla 2.2.20](http://www.oldversion.com/windows/filezilla-2-2-20) (other versions won't work) on the Win98 VM. To get FileZilla onto your VM, you'll need to use option #1 (Create a cdrom iso file), or option #2 (host a http server) above to host the file on your host computer and fetch it into the VM.
-
-   * Note that Filezilla's SSH ciphers are terribly out of date, so it won't be able to connect to your Host OS's modern SSH instance. Because of this, you'll need to start an FTP server. 
-
-   * If you're running a version of MacOS older than High Sierra, use these [instructions to enable a simple ftp server on MacOS before High Sierra](https://gaborhargitai.hu/enable-built-in-ftp-server-in-mac-os-x-yosemite-el-capitan-sierra/).
-
-   * If you're on a version of MacOS that's High Sierra or later, Apple removed the builtin ftp server with High Sierra, so now you need to [install the $4 FTP Server app from the Mac App Store for a simple FTP server on High Sierra and later](https://itunes.apple.com/us/app/ftp-server/id987045856?mt=12).
-
-   * Instructions to setup the FTP Server app quickly:
-
-      * Open the app, and on the "general" tab select a folder for server root, for me I made this ~/Desktop/ftp. 
-      
-      * Next, on the "accounts" tab of the ftp software add a user with read/write perms, I just put "anon/anon".
-      
-      * Then, back on the "general" tab, hit the 'play' button on the bottom of the panel to start the server.
-
-   * To connect to the FTP from the guest vm you'll need to use your actual IP address rather than the 10.0.2.2 or localhost or 127.0.0.1 option. 
-
-  **File Sharing Bidirectionally Option #2:** SCP, SFTP with PuTTY. 
-
-  This method is less user-friendly than GUI based options specified earlier. But if you're familiar with using SSH, SCP, or SFTP, you can use the tools provided by PuTTY. In particular, the PFTP program that comes with PuTTY has a nice interactive DOS window FTP experience. 
-
-  You'll need a [Win9x compatible version of PuTTY](http://www.oldversion.com/windows/putty-0-62) such as [PuTTY 0.62 from oldversion.com](http://www.oldversion.com/windows/putty-0-62). Download that, then get it on your VM using the cdrom ISO method or the web server file sharing options listed above, and install PuTTY on the VM. 
-
-  Some quick tips for working with PuTTY's psftp SFTP client:
-
-    * Type 'help' for a list of commands.
-    * Open the SFTP connection to your host using **open 10.0.2.2** (or your machine's IP if that IP doesnt work)
-    * Login with your OSX user credentials like you would on a normal SSH/SCP session.
-    * Work with local directories using **lcd** and **lpwd**
-    * Work with remote directories using **cd** and **pwd**
-    * List remote files with **ls** or **dir**
-    * Upload/Download files with **get** **mget** **put** **mput**      
-
+4. Fired up a Windows 98 VM on VirtualBox ([instructions here](Win982018VM.md)).
 6. Installed [Open Watcom 1.9](http://www.openwatcom.org) on the Win98 image.
 7. Created an Open Watcom project with a target environment of "Dos - 32-bit" and Image Type "Causeway Executable [.exe]".
 8. Wrote the c version of the program, compiling and checking if it'd work in the DOSBox image along the way. 
@@ -137,7 +84,9 @@ I received the following results running this program:
 
 # License
 
-All scripts are licensed with the [Apache license](http://en.wikipedia.org/wiki/Apache_license), which is a great license because, essentially it:
+The words.txt file in this repo comes from the [english-words github repo](https://github.com/dwyl/english-words), which in turn extracted the words from [this excel file from infochimps](http://www.infochimps.com/datasets/word-list-350000-simple-english-words-excel-readable). Infochimps owns the copyright to the that file. 
+
+All remaining content is licensed with the [Apache license](http://en.wikipedia.org/wiki/Apache_license), which is a great license because it:
 
 * a) covers liability - my code should work, but I'm not liable if you do something stupid with it
 * b) allows you to copy, fork, and use the code, even commercially
